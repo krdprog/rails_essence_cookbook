@@ -9,17 +9,17 @@ rails g model Project title:string body:text
 rake db:migrate
 ```
 
-**Create controller**
+**Create controller:**
 ```bash
 rails g controller Projects
 ```
 
-**Write route in flie /config/routes.rb**
+**Write route in flie /config/routes.rb:**
 ```ruby
 resources :projects
 ```
 
-**Create files for views in /app/views/projects**
+**Create files for views in /app/views/projects:**
 ```bash
 touch index.html.erb show.html.erb new.html.erb edit.html.erb
 ```
