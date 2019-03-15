@@ -84,7 +84,7 @@ end
 **index.html.erb**
 
 ```ruby
-<%= link_to "Создать новый проект", new_project_path %>
+<%= link_to 'Создать новый проект', new_project_path %>
 <hr>
 
 <h1>Проекты</h1>
@@ -100,13 +100,13 @@ end
 **show.html.erb**
 
 ```ruby
-<%= link_to "Все проекты", projects_path %>
+<%= link_to 'Все проекты', projects_path %>
 |
-<%= link_to "Создать новый проект", new_project_path %>
+<%= link_to 'Создать новый проект', new_project_path %>
 |
-<%= link_to "Редактировать текущий проект", edit_project_path(@project) %>
+<%= link_to 'Редактировать текущий проект', edit_project_path(@project) %>
 |
-<%= link_to "Удалить текущий проект", project_path(@project), method: :delete, data: { confirm: 'Действительно удалить?'} %>
+<%= link_to 'Удалить текущий проект', project_path(@project), method: :delete, data: { confirm: 'Действительно удалить?'} %>
 <hr>
 
 <h1><%= @project.title %></h1>
@@ -145,6 +145,6 @@ end
     <%= f.text_area :body %>
   </p>
 
-  <p><%= f.submit 'Сохранить' %> | <%= link_to "Отмена", projects_path %></p>
+  <p><%= f.submit 'Сохранить' %> | <%= link_to 'Отмена', projects_path %></p>
 <% end %>
 ```
