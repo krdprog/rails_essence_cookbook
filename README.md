@@ -21,7 +21,7 @@ resources :projects
 
 **Create files for views in /app/views/projects:**
 ```bash
-touch index.html.erb show.html.erb new.html.erb edit.html.erb
+touch index.html.erb show.html.erb new.html.erb edit.html.erb _form.html.erb
 ```
 
 **Create actions in controller /app/controllers/projects_controller.rb:**
