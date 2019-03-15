@@ -117,16 +117,16 @@ end
 
 <%= form_for :project, url: projects_path do |f| %>
   <p>
-    <label for="project_title">Заголовок:</label><br>
+    <%= f.label :title, 'Заголовок страницы:' %><br />
     <%= f.text_field :title %>
   </p>
 
   <p>
-    <label for="project_body">Текст:</label><br>
+    <%= f.label :body, 'Текст страницы:' %><br />
     <%= f.text_area :body %>
   </p>
 
-  <p><%= f.submit %></p>
+  <p><%= f.submit 'Сохранить' %></p>
 <% end %>
 ```
 
@@ -138,15 +138,15 @@ end
 
 <%= form_for :project, url: project_path(@project), method: :patch do |f| %>
   <p>
-    <label for="project_title">Заголовок:</label><br>
+    <%= f.label :title, 'Заголовок страницы:' %><br />
     <%= f.text_field :title %>
   </p>
 
   <p>
-    <label for="project_body">Текст:</label><br>
+    <%= f.label :body, 'Текст страницы:' %><br />
     <%= f.text_area :body %>
   </p>
 
-  <p><%= f.submit %></p>
+  <p><%= f.submit 'Сохранить' %></p>
 <% end %>
 ```
