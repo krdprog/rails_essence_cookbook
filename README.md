@@ -37,6 +37,7 @@ class ProjectsController < ApplicationController
   end
 
   def new
+    @project = Project.new
   end
 
   def edit
@@ -49,7 +50,7 @@ class ProjectsController < ApplicationController
       @project.save
       redirect_to @project
     else
-      render action: 'new'
+      render :new
     end
   end
 
@@ -59,7 +60,7 @@ class ProjectsController < ApplicationController
     if @project.update(project_params)
       redirect_to @project
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -83,18 +84,15 @@ end
 **index.html.erb**
 
 ```ruby
-<h1>Проекты</h1>
-
 <%= link_to "Создать новый проект", new_project_path %>
-
 <hr>
+
+<h1>Проекты</h1>
 
 <%= 'В текущей ленте нет проектов' if @projects.empty? %>
 
 <% @projects.each do |project| %>
   <h3><%= link_to project.title, project_path(project) %></h3>
-  <p><%= link_to "Show project", project_path(project) %> | <%= link_to "Edit project", edit_project_path(project) %> | <%= link_to "Destroy", project_path(project), method: :delete, data: { confirm: 'Действительно удалить?'} %></p>
-  <hr>
 <% end %>
 ```
 
@@ -102,11 +100,16 @@ end
 **show.html.erb**
 
 ```ruby
+<%= link_to "Все проекты", projects_path %>
+|
+<%= link_to "Редактировать проект", edit_project_path(@project) %>
+|
+<%= link_to "Удалить проект", project_path(@project), method: :delete, data: { confirm: 'Действительно удалить?'} %>
+<hr>
+
 <h1><%= @project.title %></h1>
 
 <p><%= @project.body %></p>
-
-<%= link_to "Назад в проекты", projects_path %>
 ```
 
 
@@ -115,19 +118,7 @@ end
 ```ruby
 <h1>Создать проект:</h1>
 
-<%= form_for :project, url: projects_path do |f| %>
-  <p>
-    <%= f.label :title, 'Заголовок страницы:' %><br />
-    <%= f.text_field :title %>
-  </p>
-
-  <p>
-    <%= f.label :body, 'Текст страницы:' %><br />
-    <%= f.text_area :body %>
-  </p>
-
-  <p><%= f.submit 'Сохранить' %></p>
-<% end %>
+<%= render 'form' %>
 ```
 
 
@@ -136,7 +127,12 @@ end
 ```ruby
 <h1>Редактировать проект:</h1>
 
-<%= form_for :project, url: project_path(@project), method: :patch do |f| %>
+<%= render 'form' %>
+```
+**_form.html.erb**
+
+```ruby
+<%= form_for @project do |f| %>
   <p>
     <%= f.label :title, 'Заголовок страницы:' %><br />
     <%= f.text_field :title %>
@@ -147,6 +143,6 @@ end
     <%= f.text_area :body %>
   </p>
 
-  <p><%= f.submit 'Сохранить' %></p>
+  <p><%= f.submit 'Сохранить' %> | <%= link_to "Отмена", projects_path %></p>
 <% end %>
 ```
