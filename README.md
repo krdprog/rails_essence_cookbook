@@ -21,19 +21,20 @@ resources :projects
 
 **Create files for views in /app/views/projects:**
 ```bash
-touch index.html.erb show.html.erb new.html.erb edit.html.erb _form.html.erb
+touch index.html.erb show.html.erb new.html.erb edit.html.erb _form.html.erb _project.html.erb
 ```
 
 **Create actions in controller /app/controllers/projects_controller.rb:**
 
 ```ruby
 class ProjectsController < ApplicationController
+  before_action :set_project, only: [:show, :edit, :update, :destroy]
+
   def index
     @projects = Project.all
   end
 
   def show
-    @project = Project.find(params[:id])
   end
 
   def new
@@ -41,7 +42,6 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = Project.find(params[:id])
   end
 
   def create
@@ -55,8 +55,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = Project.find(params[:id])
-
     if @project.update(project_params)
       redirect_to @project
     else
@@ -65,13 +63,16 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = Project.find(params[:id])
     @project.destroy
 
     redirect_to projects_path
   end
 
   private
+
+  def set_project
+    @project = Project.find(params[:id])
+  end
 
   def project_params
     params.require(:project).permit(:title, :body)
@@ -91,11 +92,22 @@ end
 
 <%= 'В текущей ленте нет проектов' if @projects.empty? %>
 
+<%= render @projects %>
+```
+
+**_project.html.erb**
+
+```ruby
+<h3><%= link_to project.title, project_path(project) %></h3>
+```
+
+Файл _project.html.erb вместо кода в index.html.erb, заменяет цикл:
+
+```ruby
 <% @projects.each do |project| %>
   <h3><%= link_to project.title, project_path(project) %></h3>
 <% end %>
 ```
-
 
 **show.html.erb**
 
@@ -134,6 +146,15 @@ end
 **_form.html.erb**
 
 ```ruby
+<% if @post.errors.any? %>
+  <%= t('common.errors') %>
+  <ul>
+    <% @post.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_for @project do |f| %>
   <p>
     <%= f.label :title, 'Заголовок страницы:' %><br />
@@ -147,4 +168,24 @@ end
 
   <p><%= f.submit 'Сохранить' %> | <%= link_to 'Отмена', projects_path %></p>
 <% end %>
+```
+
+**Добавим валидацию в Модель app/models/project.rb:**
+
+```ruby
+class Project < ApplicationRecord
+  validates :title, :body, presence: true
+end
+```
+
+Добавим в стили:
+
+```css
+.field_with_errors label {
+  color: #d01612;
+}
+
+.field_with_errors input, .field_with_errors textarea {
+  border: 2px solid #d01612;
+}
 ```
