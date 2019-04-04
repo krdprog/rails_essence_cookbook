@@ -146,10 +146,10 @@ end
 **_form.html.erb**
 
 ```ruby
-<% if @post.errors.any? %>
+<% if @project.errors.any? %>
   <%= t('common.errors') %>
   <ul>
-    <% @post.errors.full_messages.each do |message| %>
+    <% @project.errors.full_messages.each do |message| %>
       <li><%= message %></li>
     <% end %>
   </ul>
